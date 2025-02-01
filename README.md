@@ -3,23 +3,37 @@
 > A template for building applications for ARM Cortex-M microcontrollers
 
 This project is developed and maintained by the [Cortex-M team][team].
+   
+> The default setup is configured to emulate Cortex-M33 on QEMU.
+
+``` console
+# build & run qemu
+cargo run
+
+# attach debug
+./run_gdb.sh
+
+# run code
+gdb
+> continue
+> ni
+
+# Result
+Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.80s
+Running `qemu-system-arm -cpu cortex-m33 -machine mps2-an505 -nographic -semihosting-config enable=on,target=native -S -gdb 'tcp::3456' -kernel target/thumbv8m.main-none-eabi/debug/cortex_m33`
+Hello, world!
+```
 
 ## Dependencies
 
 To build embedded programs using this template you'll need:
 
-- Rust 1.31, 1.30-beta, nightly-2018-09-13 or a newer toolchain. e.g. `rustup
-  default beta`
+- nightly-2024-10-11(1.83)
 
-- The `cargo generate` subcommand. [Installation
-  instructions](https://github.com/ashleygwilliams/cargo-generate#installation).
+- arm-none-eabi-gdb
 
 - `rust-std` components (pre-compiled `core` crate) for the ARM Cortex-M
   targets. Run:
-
-``` console
-$ rustup target add thumbv6m-none-eabi thumbv7m-none-eabi thumbv7em-none-eabi thumbv7em-none-eabihf
-```
 
 ## Using this template
 
@@ -32,9 +46,7 @@ programs, check [the embedded Rust book][book].
 0. Before we begin you need to identify some characteristics of the target
   device as these will be used to configure the project:
 
-- The ARM core. e.g. Cortex-M3.
-
-- Does the ARM core include an FPU? Cortex-M4**F** and Cortex-M7**F** cores do.
+- The ARM core. Cortex-M33
 
 - How much Flash memory and RAM does the target device has? e.g. 256 KiB of
   Flash and 32 KiB of RAM.
@@ -104,12 +116,6 @@ MEMORY
 ``` console
 $ cargo build
 ```
-
-## VS Code
-
-This template includes launch configurations for debugging CortexM programs with Visual Studio Code located in the `.vscode/` directory.  
-See [.vscode/README.md](./.vscode/README.md) for more information.  
-If you're not using VS Code, you can safely delete the directory from the generated project.
 
 # License
 
