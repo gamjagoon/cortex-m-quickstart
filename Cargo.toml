@@ -1,3 +1,5 @@
+cargo-features = ["profile-rustflags"]
+
 [package]
 authors = ["Minjae"]
 edition = "2021"
@@ -30,7 +32,13 @@ name = "cortex_m33"
 test = false
 bench = false
 
+[profile.dev]
+debug = true # symbols are nice and they don't increase the size on Flash
+lto = false # better optimizations
+rustflags = ["-Z", "stack-protector=all"]
+
 [profile.release]
 codegen-units = 1 # better optimizations
 debug = true # symbols are nice and they don't increase the size on Flash
 lto = true # better optimizations
+rustflags = ["-Z", "stack-protector=all"]

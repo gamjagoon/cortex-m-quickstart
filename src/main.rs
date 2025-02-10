@@ -19,6 +19,17 @@ fn main() -> ! {
     loop {}
 }
 
+#[no_mangle]
+pub static mut __stack_chk_guard: usize = 0xDEADBEEF;
+
+#[no_mangle]
+pub extern "C" fn __stack_chk_fail() {
+    log::print_error("Stack OverFlow");
+    unsafe {
+        core::arch::asm!("b .");
+    }
+}
+
 #[inline(never)]
 #[no_mangle]
 fn run_time() {
